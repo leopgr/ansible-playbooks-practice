@@ -28,6 +28,7 @@
   - name: create default directory
     file:
       path: "/u01/app/test"      
+      state: directory
       mode: '0755'
       owner: "oracle"
 

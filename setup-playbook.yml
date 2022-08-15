@@ -31,13 +31,15 @@
       state: directory
       mode: '0755'
       owner: "oracle"
+      group: "oracle"
 
-  - name: create empty file
+  - name: create empty file index.html
     file:
       path: "/u01/app/test/index.html"
       state: touch
       mode: '0750'
       owner: "oracle"
+      group: "oracle"
 
   - name: create index.html
     copy:

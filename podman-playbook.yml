@@ -20,7 +20,7 @@
   # Steps for adding packages
   - name: install additional packages
     dnf:
-      name: "{{ item }}"
+      name: {{ item }}
       state: latest
       with_items:
         - httpd

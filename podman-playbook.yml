@@ -18,7 +18,7 @@
       key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
 
   # Steps for adding packages
-  - name: install additional packages
+  - name: install additional packages (testing install multiple packages on one task)
     dnf:
       name:
         - httpd

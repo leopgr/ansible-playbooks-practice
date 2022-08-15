@@ -27,17 +27,20 @@
   # Steps to create default directories and files
   - name: create default directory
     file:
-      path: "/var/lib/test_playbook"      
+      path: "/u01/app/test"      
+      mode: '0755'
+      owner: "oracle"
 
   - name: create empty file
     file:
-      path: "/var/lib/test_playbook/index.html"
+      path: "/u01/app/test/index.html"
       state: touch
       mode: '0750'
+      owner: "oracle"
 
   - name: create index.html
     copy:
-      dest: "/var/lib/test_playbook/index.html"
+      dest: "/u01/app/test/index.html"
       content: |
-        Hello! Welcome to Oracle Linux Containers.
+        Hello! Welcome to Application Test.
 

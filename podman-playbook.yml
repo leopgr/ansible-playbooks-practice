@@ -1,0 +1,50 @@
+---
+- hosts: all
+  collections:
+    - containers.podman
+  tasks:
+
+  - name: install podman
+    dnf:
+      name: '@container-tools:ol8'
+      state: present
+    become: yes
+
+  - name: pull oraclelinux:8 from GitHub
+    podman_image:
+      name: ghcr.io/oracle/oraclelinux:8
+
+  - name: ensure dest directory exists
+    file:
+      path: "/u01/app/nginx/"
+      state: directory
+      owner: "oracle"
+      group: "oracle"
+      mode: '0755'
+
+  - name: create empty file
+    file:
+      path: "/u01/app/nginx/index.html"
+      state: touch
+      mode: '0755'
+      owner: "oracle"
+      group: "oracle"
+
+  - name: create index.html
+    copy:
+      dest: "/u01/app/nginx/index.html"
+      content: |
+        Hello! Welcome to nginx container.
+
+  - name: run image
+    podman_container:
+      name: my-ol8
+      image: ghcr.io/oracle/oraclelinux8-nginx:1.18
+      state: started
+      detach: yes
+      expose:
+        - '80'
+        - '443'
+      publish:
+        - '8080:80'
+      volume: "/u01/app/nginx:/usr/share/nginx/html:Z"

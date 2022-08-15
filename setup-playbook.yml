@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - vars/defaults.yml
+
+  tasks:
+
+  # Steps for adding a user
+  - name: add user account with access to sudo
+    user:
+      name: "oracle"
+      comment: Ansible created user
+      groups: wheel
+      append: yes
+
+  - name: set authorized key for user using local public key file
+    authorized_key:
+      user: "oracle"
+      state: present
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+  # Steps for adding packages
+  - name: install additional packages
+    dnf:
+      name: "git"
+      state: latest

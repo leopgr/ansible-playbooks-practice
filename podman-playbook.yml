@@ -20,12 +20,11 @@
   # Steps for adding packages
   - name: install additional packages
     dnf:
-      name: {{ item }}
-      state: latest
-      with_items:
+      name:
         - httpd
         - git
-        - vsftpd  
+        - vsftpd
+      state: latest
 
   - name: install podman
     dnf:

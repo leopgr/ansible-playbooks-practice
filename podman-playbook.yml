@@ -4,6 +4,29 @@
     - containers.podman
   tasks:
 
+  - name: create user account with access to sudo
+    user:
+      name: "oracle"
+      comment: Ansible created user
+      groups: wheel
+      append: yes
+
+  - name: set authorized key for user using local public key file
+    authorized_key:
+      user: "oracle"
+      state: present
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+  # Steps for adding packages
+  - name: install additional packages
+    dnf:
+      name: "{{ item }}"
+      state: latest
+      with_items:
+        - httpd
+        - git
+        - vsftpd  
+
   - name: install podman
     dnf:
       name: '@container-tools:ol8'

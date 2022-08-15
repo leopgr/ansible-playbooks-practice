@@ -23,3 +23,21 @@
     dnf:
       name: "git"
       state: latest
+
+  # Steps to create default directories and files
+  - name: create default directory
+    file:
+      path: "/var/lib/test_playbook"      
+
+  - name: create empty file
+    file:
+      path: "/var/lib/test_playbook/index.html"
+      state: touch
+      mode: '0750'
+
+  - name: create index.html
+    copy:
+      dest: "/var/lib/test_playbook/index.html"
+      content: |
+        Hello! Welcome to Oracle Linux Containers.
+
